@@ -16,7 +16,7 @@ namespace FNWS.Controllers
         public FileNetResponse Post([FromBody] FileNetRequest req)
         {
             FileNetResponse fnResponse = new FileNetResponse();
-            fnResponse.request_Id = "{" + req.sourceFileNetID + "}";
+            fnResponse.request_Id = "{ erkan " + req.sourceFileNetID + " muratcan}";
 
             return fnResponse;
 
