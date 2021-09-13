@@ -12,5 +12,25 @@ namespace FNWS.Controllers
         {
             return View();
         }
+
+        public FileNetResponse Post([FromBody] FileNetRequest req)
+        {
+            FileNetResponse fnResponse = new FileNetResponse();
+            fnResponse.request_Id = "{" + req.sourceFileNetID + "}";
+
+            return fnResponse;
+        }
+    }
+
+    public class FileNetResponse
+    {
+        public string request_Id { get; set; }
+        public string request_Status { get; set; }
+
+    }
+
+    public class FileNetRequest
+    {
+        public string sourceFileNetID { get; set; }
     }
 }
