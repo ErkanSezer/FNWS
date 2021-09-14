@@ -18,3 +18,5 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "FNWS.dll"]
+ENTRYPOINT ["dotnet", "FileNet.Api.dll"]
+ENTRYPOINT ["dotnet", "Microsoft.Web.Services3.dll"]
