@@ -5,8 +5,8 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /src
 COPY ["FNWS/FNWS.csproj", "FNWS/"]
-COPY ["FNWS/bin/Debug/netcoreapp3.1/FileNet.Api.dll", "FNWS/"]
-COPY ["FNWS/bin/Debug/netcoreapp3.1/Microsoft.Web.Services3.dll", "FNWS/"]
+COPY ["FNWS/bin/Release/netcoreapp3.1/FileNet.Api.dll", "FNWS/"]
+COPY ["FNWS/bin/Release/netcoreapp3.1/Microsoft.Web.Services3.dll", "FNWS/"]
 RUN dotnet restore "FNWS/FNWS.csproj"
 COPY . .
 WORKDIR "/src/FNWS"
