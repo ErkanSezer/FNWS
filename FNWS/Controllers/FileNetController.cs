@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using FileNet.Api.Core;
+using FileNet.Api.Util;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Web.Services3.Security.Tokens;
+using System.IO;
 
 namespace FNWS.Controllers
 {
@@ -13,13 +13,23 @@ namespace FNWS.Controllers
             return View();
         }
 
-        public FileNetResponse Post([FromBody] FileNetRequest req)
+        public FileNetResponse getDocument([FromBody] FileNetRequest req)
         {
             FileNetResponse fnResponse = new FileNetResponse();
-            fnResponse.request_Id = "{ erkan " + req.sourceFileNetID + " muratcan}";
 
+            UsernameToken token = new UsernameToken("cpeadmin", "Bbs@2019", PasswordOption.SendPlainText);
+            UserContext.SetProcessSecurityToken(token);
+            IConnection conn = Factory.Connection.GetConnection("http://192.168.201.163:9080/wsi/FNCEWS40MTOM/");
+            IDomain domain = Factory.Domain.GetInstance(conn, null);
+            IObjectStore os = Factory.ObjectStore.FetchInstance(domain, "OBST", null);
+
+            IDocument Document = Factory.Document.FetchInstance(os, req.sourceFileNetID, null);
+            Stream s = Document.AccessContentStream(0);
+            byte[] data = new byte[s.Length];
+            s.Read(data, 0, data.Length);
+            s.Close();
+            fnResponse.data = data;
             return fnResponse;
-
 
         }
     }
@@ -27,7 +37,7 @@ namespace FNWS.Controllers
     public class FileNetResponse
     {
         public string request_Id { get; set; }
-        public string request_Status { get; set; }
+        public byte[] data { get; set; }
 
     }
 

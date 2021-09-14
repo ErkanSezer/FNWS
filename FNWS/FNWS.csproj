@@ -10,4 +10,13 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Kubernetes.Tools.Targets" Version="1.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="FileNet.Api">
+      <HintPath>bin\Debug\netcoreapp3.1\FileNet.Api.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Services3">
+      <HintPath>bin\Debug\netcoreapp3.1\Microsoft.Web.Services3.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
