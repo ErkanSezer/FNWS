@@ -2,6 +2,7 @@
 using FileNet.Api.Util;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Web.Services3.Security.Tokens;
+using System;
 using System.IO;
 
 namespace FNWS.Controllers
@@ -15,22 +16,32 @@ namespace FNWS.Controllers
 
         public FileNetResponse getDocument([FromBody] FileNetRequest req)
         {
+
             FileNetResponse fnResponse = new FileNetResponse();
+            try
+            {
+                UsernameToken token = new UsernameToken("cpeadmin", "Bbs@2019", PasswordOption.SendPlainText);
+                UserContext.SetProcessSecurityToken(token);
+                IConnection conn = Factory.Connection.GetConnection("http://192.168.201.163:9080/wsi/FNCEWS40MTOM/");
+                IDomain domain = Factory.Domain.GetInstance(conn, null);
+                IObjectStore os = Factory.ObjectStore.FetchInstance(domain, "OBST", null);
 
-            UsernameToken token = new UsernameToken("cpeadmin", "Bbs@2019", PasswordOption.SendPlainText);
-            UserContext.SetProcessSecurityToken(token);
-            IConnection conn = Factory.Connection.GetConnection("http://192.168.201.163:9080/wsi/FNCEWS40MTOM/");
-            IDomain domain = Factory.Domain.GetInstance(conn, null);
-            IObjectStore os = Factory.ObjectStore.FetchInstance(domain, "OBST", null);
-
-            IDocument Document = Factory.Document.FetchInstance(os, req.sourceFileNetID, null);
-            Stream s = Document.AccessContentStream(0);
-            byte[] data = new byte[s.Length];
-            s.Read(data, 0, data.Length);
-            s.Close();
-            fnResponse.data = data;
-            return fnResponse;
-
+                IDocument Document = Factory.Document.FetchInstance(os, req.sourceFileNetID, null);
+                Stream s = Document.AccessContentStream(0);
+                byte[] data = new byte[s.Length];
+                s.Read(data, 0, data.Length);
+                s.Close();
+                fnResponse.data = data;
+                fnResponse.message = "OK";
+                fnResponse.request_Id = req.sourceFileNetID;
+                return fnResponse;
+            }
+            catch (Exception Exc)
+            {
+                fnResponse.request_Id = req.sourceFileNetID;
+                fnResponse.message = "Error : " + Exc.Message;
+                return fnResponse;
+            }
         }
     }
 
@@ -38,6 +49,7 @@ namespace FNWS.Controllers
     {
         public string request_Id { get; set; }
         public byte[] data { get; set; }
+        public string message { get; set; }
 
     }
 
