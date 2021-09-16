@@ -1,9 +1,6 @@
-﻿using FileNet.Api.Core;
-using FileNet.Api.Util;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Web.Services3.Security.Tokens;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.IO;
+using System.Data.SqlClient;
 
 namespace FNWS.Controllers
 {
@@ -14,31 +11,43 @@ namespace FNWS.Controllers
             return View();
         }
 
-        public FileNetResponse getDocument([FromBody] FileNetRequest req)
+        public FileNetResponse getIdfromDB([FromBody] FileNetRequest req)
         {
 
             FileNetResponse fnResponse = new FileNetResponse();
             try
             {
-                UsernameToken token = new UsernameToken("cpeadmin", "Bbs@2019", PasswordOption.SendPlainText);
-                UserContext.SetProcessSecurityToken(token);
-                IConnection conn = Factory.Connection.GetConnection("http://192.168.201.163:9080/wsi/FNCEWS40MTOM/");
-                IDomain domain = Factory.Domain.GetInstance(conn, null);
-                IObjectStore os = Factory.ObjectStore.FetchInstance(domain, "OBST", null);
+                string connString = @"Server = bbs-v-ibm03.bilgibirikim.com; Database = RiskMerkezi; User Id = sa; Password = Bbs@2019; Integrated Security = false; MultipleActiveResultSets = true;";
 
-                IDocument Document = Factory.Document.FetchInstance(os, req.sourceFileNetID, null);
-                Stream s = Document.AccessContentStream(0);
-                byte[] data = new byte[s.Length];
-                s.Read(data, 0, data.Length);
-                s.Close();
-                fnResponse.data = data;
-                fnResponse.message = "OK";
-                fnResponse.request_Id = req.sourceFileNetID;
+                using (SqlConnection connection = new SqlConnection(connString))
+                {
+                    Console.WriteLine("\nQuery data example:");
+                    Console.WriteLine("=========================================\n");
+
+                    connection.Open();
+
+                    String sql = "SELECT Aciklama from BasvuruSekli where BS_id= " + Convert.ToInt32(req.sourceFileNetID);
+
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                fnResponse.obJectID = reader.GetString(0);
+                                fnResponse.message = "OK";
+                                fnResponse.request_Id = req.sourceFileNetID.ToString();
+                            }
+                        }
+                    }
+
+                }
                 return fnResponse;
+
             }
             catch (Exception Exc)
             {
-                fnResponse.request_Id = req.sourceFileNetID;
+                fnResponse.request_Id = req.sourceFileNetID.ToString();
                 fnResponse.message = "Error : " + Exc.Message;
                 return fnResponse;
             }
@@ -48,7 +57,7 @@ namespace FNWS.Controllers
     public class FileNetResponse
     {
         public string request_Id { get; set; }
-        public byte[] data { get; set; }
+        public string obJectID { get; set; }
         public string message { get; set; }
 
     }
