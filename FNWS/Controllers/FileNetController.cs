@@ -52,6 +52,11 @@ namespace FNWS.Controllers
                 return fnResponse;
             }
         }
+
+        public string Get(int id)
+        {
+            return "value" + id.ToString();
+        }
     }
 
     public class FileNetResponse

@@ -6,7 +6,46 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="bin\Debug\netcoreapp3.1\appsettings.Development.json" />
+    <Content Include="bin\Debug\netcoreapp3.1\appsettings.json" />
+    <Content Include="bin\Debug\netcoreapp3.1\FNWS.deps.json" />
+    <Content Include="bin\Debug\netcoreapp3.1\FNWS.runtimeconfig.dev.json" />
+    <Content Include="bin\Debug\netcoreapp3.1\FNWS.runtimeconfig.json" />
+    <Content Include="bin\Release\netcoreapp3.1\appsettings.Development.json" />
+    <Content Include="bin\Release\netcoreapp3.1\appsettings.json" />
+    <Content Include="bin\Release\netcoreapp3.1\FNWS.deps.json" />
+    <Content Include="bin\Release\netcoreapp3.1\FNWS.runtimeconfig.dev.json" />
+    <Content Include="bin\Release\netcoreapp3.1\FNWS.runtimeconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="bin\Debug\net5.0\ref\" />
+    <Folder Include="bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp3.0\" />
+    <Folder Include="bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\" />
+    <Folder Include="bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\" />
+    <Folder Include="bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\" />
     <Folder Include="library\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Debug\netcoreapp3.1\FNWS.dll" />
+    <None Include="bin\Debug\netcoreapp3.1\FNWS.exe" />
+    <None Include="bin\Debug\netcoreapp3.1\FNWS.pdb" />
+    <None Include="bin\Debug\netcoreapp3.1\FNWS.Views.dll" />
+    <None Include="bin\Debug\netcoreapp3.1\FNWS.Views.pdb" />
+    <None Include="bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll" />
+    <None Include="bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\sni.dll" />
+    <None Include="bin\Debug\netcoreapp3.1\runtimes\win-x64\native\sni.dll" />
+    <None Include="bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.dll" />
+    <None Include="bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll" />
+    <None Include="bin\Debug\netcoreapp3.1\System.Data.SqlClient.dll" />
+    <None Include="bin\Release\netcoreapp3.1\FileNet.Api.dll" />
+    <None Include="bin\Release\netcoreapp3.1\FNWS.dll" />
+    <None Include="bin\Release\netcoreapp3.1\FNWS.exe" />
+    <None Include="bin\Release\netcoreapp3.1\FNWS.pdb" />
+    <None Include="bin\Release\netcoreapp3.1\FNWS.Views.dll" />
+    <None Include="bin\Release\netcoreapp3.1\FNWS.Views.pdb" />
+    <None Include="bin\Release\netcoreapp3.1\Microsoft.Web.Services3.dll" />
   </ItemGroup>
 
   <ItemGroup>
